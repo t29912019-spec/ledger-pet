@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <!-- Dynamically loaded via getIdentifier() in FloatingWindowService.getSavedIconRes() -->
+    <issue id="UnusedResources">
+        <ignore path="src/main/res/drawable/bg_pet.xml" />
+        <ignore path="src/main/res/drawable/bg_pet_blue.xml" />
+        <ignore path="src/main/res/drawable/bg_pet_green.xml" />
+        <ignore path="src/main/res/drawable/bg_pet_pink.xml" />
+        <ignore path="src/main/res/drawable/bg_pet_purple.xml" />
+        <ignore path="src/main/res/drawable/bg_pet_red.xml" />
+        <!-- Used as dependency of bg_pet drawable shapes -->
+        <ignore path="src/main/res/values/colors.xml" />
+        <!-- Android system convention for round icon -->
+        <ignore path="src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" />
+    </issue>
+    <!-- Intentional background for ripple effect on list items -->
+    <issue id="Overdraw">
+        <ignore path="src/main/res/layout/item_category.xml" />
+    </issue>
+    <!-- mipmap-anydpi-v26 required by Android resource system for adaptive icons -->
+    <issue id="ObsoleteSdkInt">
+        <ignore path="src/main/res/mipmap-anydpi-v26" />
+    </issue>
+</lint>
