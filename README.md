@@ -11,9 +11,9 @@
 - **账单管理**：按月查看账单列表，支持编辑、删除
 - **月度统计**：收入/支出分类汇总，可视化占比
 
-## 演示视频
+## 演示
 
-https://github.com/t29912019-spec/ledger-pet/blob/main/docs/demo.mp4
+![随记账本演示](docs/demo.gif)
 
 ## 技术栈
 
