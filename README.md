@@ -13,7 +13,7 @@
 
 ## 演示视频
 
-[下载演示视频](docs/demo.mp4)
+https://github.com/t29912019-spec/ledger-pet/blob/main/docs/demo.mp4
 
 ## 技术栈
 
