@@ -18,6 +18,7 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
+import com.example.ledger.service.LedgerAccessibilityService
 import kotlin.math.abs
 import kotlin.math.sqrt
 
@@ -82,6 +83,10 @@ class FloatingWindowService : Service() {
     private var initialY = 0
     private var initialTouchX = 0f
     private var initialTouchY = 0f
+
+    // ---- 双击检测 ----
+    private var lastTapTime = 0L
+    private val doubleClickThreshold = 500L   // 两次点击间隔 < 500ms 视为双击
 
     // ---- Runnable ----
     private var tempPoseRunnable: Runnable? = null
@@ -323,10 +328,26 @@ class FloatingWindowService : Service() {
             }
             snapToNearestEdge()
             settlePet()
+            lastTapTime = System.currentTimeMillis()
             return
         }
 
+        val now = System.currentTimeMillis()
+        if (now - lastTapTime < doubleClickThreshold) {
+            // 双击 → 触发屏幕识别
+            lastTapTime = 0
+            handleDoubleClick()
+            return
+        }
+
+        lastTapTime = now
         openInputDialog()
+        snapToNearestEdge()
+        settlePet()
+    }
+
+    private fun handleDoubleClick() {
+        LedgerAccessibilityService.requestScreenCapture(this)
         snapToNearestEdge()
         settlePet()
     }

@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ledger.R
 import com.example.ledger.data.model.Bill
+import com.example.ledger.service.LedgerAccessibilityService
 import com.example.ledger.databinding.ActivityMainBinding
 import com.example.ledger.ui.adapter.BillAdapter
 import com.example.ledger.viewmodel.MainViewModel
@@ -113,6 +114,12 @@ class MainActivity : AppCompatActivity() {
             prefs.edit().putBoolean("noti_guide_shown", true).apply()
             showNotificationAccessGuide()
         }
+
+        // 首次启动引导开启无障碍屏幕识别权限
+        if (!prefs.getBoolean("a11y_guide_shown", false) && !LedgerAccessibilityService.isEnabled(this)) {
+            prefs.edit().putBoolean("a11y_guide_shown", true).apply()
+            showAccessibilityGuide()
+        }
     }
 
     private fun showNotificationAccessGuide() {
@@ -122,6 +129,19 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton("去开启") { _, _ ->
                 notificationAccessLauncher.launch(
                     Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
+                )
+            }
+            .setNegativeButton("稍后", null)
+            .show()
+    }
+
+    private fun showAccessibilityGuide() {
+        AlertDialog.Builder(this)
+            .setTitle("开启屏幕识别")
+            .setMessage("微信退款通知不含金额，需要「屏幕识别」权限来读取退款页面上的金额并自动抵消支出。\n\n开启后，双击悬浮宠物即可识别当前屏幕上的退款信息。\n\n请在下一步中打开「随记账本屏幕识别」开关。")
+            .setPositiveButton("去开启") { _, _ ->
+                notificationAccessLauncher.launch(
+                    Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
                 )
             }
             .setNegativeButton("稍后", null)

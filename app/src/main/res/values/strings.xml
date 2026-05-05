@@ -15,4 +15,6 @@
     <string name="notification_access_desc">开启后可自动识别微信/支付宝支付通知，一键记账</string>
     <string name="notification_granted">已授权</string>
     <string name="notification_not_granted">未授权</string>
+    <string name="accessibility_service_label">随记账本屏幕识别</string>
+    <string name="accessibility_service_description">双击悬浮宠物后可读取屏幕退款金额，自动抵消对应支出账单</string>
 </resources>
