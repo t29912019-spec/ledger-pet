@@ -24,6 +24,16 @@
 - Material Design 3
 - 九宫格精灵图动画
 
+## 下载安装
+
+[![下载 APK](https://img.shields.io/badge/下载-APK-brightgreen)](https://github.com/t29912019-spec/ledger-pet/releases/download/v1.0/ledger-pet-v1.0.apk)
+
+1. 点击上方按钮下载 APK
+2. 手机设置 → 允许「安装未知应用」
+3. 打开 APK 安装
+
+> 要求 Android 8.0+
+
 ## 构建
 
 ```bash
