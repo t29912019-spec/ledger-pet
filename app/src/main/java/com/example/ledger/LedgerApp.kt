@@ -17,14 +17,26 @@ class LedgerApp : Application() {
     }
 
     private fun createNotificationChannel() {
-        val channel = NotificationChannel(
+        val manager = getSystemService(NotificationManager::class.java)
+
+        // 悬浮窗服务通知渠道
+        val floatChannel = NotificationChannel(
             "floating_service",
             "悬浮窗服务",
             NotificationManager.IMPORTANCE_LOW
         ).apply {
             description = "桌面宠物记账悬浮窗"
         }
-        val manager = getSystemService(NotificationManager::class.java)
-        manager.createNotificationChannel(channel)
+        manager.createNotificationChannel(floatChannel)
+
+        // 自动记账支付通知渠道
+        val paymentChannel = NotificationChannel(
+            "payment_book",
+            "自动记账提醒",
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            description = "检测到微信/支付宝支付时推送记账提醒"
+        }
+        manager.createNotificationChannel(paymentChannel)
     }
 }

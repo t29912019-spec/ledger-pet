@@ -44,6 +44,17 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice" />
         </com.google.android.material.chip.ChipGroup>
 
+        <!-- 支付方式提示（自动记账时显示） -->
+        <TextView
+            android:id="@+id/tv_pay_way"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:textColor="@color/primary"
+            android:visibility="gone" />
+
         <!-- 金额输入 -->
         <LinearLayout
             android:layout_width="match_parent"

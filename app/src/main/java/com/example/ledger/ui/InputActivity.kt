@@ -31,6 +31,7 @@ class InputActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var etAmount: EditText
     private lateinit var tvTime: TextView
+    private lateinit var tvPayWay: TextView
     private lateinit var chipExpense: Chip
     private lateinit var chipIncome: Chip
     private lateinit var recyclerCategories: RecyclerView
@@ -40,6 +41,7 @@ class InputActivity : AppCompatActivity() {
     private var selectedCategoryId: String? = null
     private var selectedType: String = "expense"
     private var selectedTime: String = ""  // yyyy-MM-dd HH:mm:ss
+    private var payWay: String = ""        // 支付方式（微信/支付宝，自动记账预填）
     private var pendingCategoryId: String? = null
     private var pendingNewCategory: Category? = null
     private val categoryAdapter = CategoryChipAdapter { category ->
@@ -110,10 +112,11 @@ class InputActivity : AppCompatActivity() {
         observeCategories()
         loadLastCategory()
 
-        // 先检查剪贴板，再检查截图预填（截图优先）
+        // 先检查 Intent 预填（自动记账通知），再检查剪贴板
         val prefillAmount = intent.getDoubleExtra("amount", 0.0)
         val prefillType = intent.getStringExtra("type")
         val prefillTime = intent.getStringExtra("time")
+        payWay = intent.getStringExtra("payWay") ?: ""
         if (prefillAmount > 0) {
             etAmount.setText(prefillAmount.toBigDecimal().stripTrailingZeros().toPlainString())
             etAmount.setSelection(etAmount.text.length)
@@ -128,6 +131,10 @@ class InputActivity : AppCompatActivity() {
         if (!prefillTime.isNullOrEmpty()) {
             selectedTime = prefillTime
             tvTime.text = selectedTime
+        }
+        // 显示支付方式提示
+        if (payWay.isNotEmpty()) {
+            showPayWayHint()
         }
 
         onBackPressedDispatcher.addCallback(this) {
@@ -145,6 +152,7 @@ class InputActivity : AppCompatActivity() {
     private fun initViews() {
         etAmount = findViewById(R.id.et_amount)
         tvTime = findViewById(R.id.tv_time)
+        tvPayWay = findViewById(R.id.tv_pay_way)
         chipExpense = findViewById(R.id.chip_expense)
         chipIncome = findViewById(R.id.chip_income)
         recyclerCategories = findViewById(R.id.recycler_categories)
@@ -193,7 +201,7 @@ class InputActivity : AppCompatActivity() {
                 Toast.makeText(this, "请选择分类", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            viewModel.addBill(amount, categoryId, selectedType, "", selectedTime)
+            viewModel.addBill(amount, categoryId, selectedType, payWay, selectedTime)
             pendingCategoryId = null
             pendingNewCategory = null
             // 触发宠物临时姿势
@@ -278,6 +286,12 @@ class InputActivity : AppCompatActivity() {
             etAmount.setText(amount.toBigDecimal().stripTrailingZeros().toPlainString())
             etAmount.setSelection(etAmount.text.length)
         }
+    }
+
+    /** 显示自动记账的支付方式提示 */
+    private fun showPayWayHint() {
+        tvPayWay.text = "📱 来自${payWay}支付"
+        tvPayWay.visibility = View.VISIBLE
     }
 
     private fun showTimeEditDialog() {

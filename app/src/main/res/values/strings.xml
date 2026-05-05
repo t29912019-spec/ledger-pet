@@ -11,4 +11,8 @@
     <string name="surplus">盈余</string>
     <string name="deficit">亏损</string>
     <string name="no_data">暂无数据</string>
+    <string name="notification_access_title">通知读取权限</string>
+    <string name="notification_access_desc">开启后可自动识别微信/支付宝支付通知，一键记账</string>
+    <string name="notification_granted">已授权</string>
+    <string name="notification_not_granted">未授权</string>
 </resources>

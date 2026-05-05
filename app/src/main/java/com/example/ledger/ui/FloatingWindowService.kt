@@ -120,12 +120,13 @@ class FloatingWindowService : Service() {
                 tempPose = pose
                 petState = PetState.TEMP_POSE
                 petView.currentPose = pose
+                petView.isCompact = false   // 立即唤醒 compact 状态
+                settledTime = System.currentTimeMillis()
                 tempPoseRunnable?.let { handler.removeCallbacks(it) }
                 tempPoseRunnable = Runnable {
                     tempPose = null
                     petState = PetState.SETTLED
                     settledTime = System.currentTimeMillis()
-                    petView.isCompact = false
                     refreshPose()
                 }
                 handler.postDelayed(tempPoseRunnable!!, 3000L)

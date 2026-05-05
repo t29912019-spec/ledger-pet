@@ -2,10 +2,14 @@ package com.example.ledger.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.widget.SeekBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.ledger.R
 import com.example.ledger.databinding.ActivitySettingsBinding
+import com.example.ledger.service.PaymentNotificationService
+
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -43,6 +47,7 @@ class SettingsActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
+        binding.rowNotificationAccess.setOnClickListener { openNotificationAccess() }
         binding.rowTheme.setOnClickListener { showThemePickerDialog() }
         binding.btnBack.setOnClickListener { finish() }
     }
@@ -52,6 +57,25 @@ class SettingsActivity : AppCompatActivity() {
         applyTheme()
         val currentTheme = ThemeManager.getCurrentTheme(this)
         binding.tvThemeValue.text = ThemeManager.getThemeLabel(currentTheme)
+        updateNotificationStatus()
+    }
+
+    /** 打开系统通知读取权限设置页 */
+    private fun openNotificationAccess() {
+        val intent = Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
+        startActivity(intent)
+    }
+
+    /** 检查通知读取权限是否已开启 */
+    private fun updateNotificationStatus() {
+        val enabled = PaymentNotificationService.isRunning
+        binding.tvNotificationStatus.text = if (enabled)
+            getString(R.string.notification_granted)
+        else
+            getString(R.string.notification_not_granted)
+        binding.tvNotificationStatus.setTextColor(
+            if (enabled) getColor(android.R.color.holo_green_dark) else getColor(android.R.color.holo_red_dark)
+        )
     }
 
     private fun showThemePickerDialog() {

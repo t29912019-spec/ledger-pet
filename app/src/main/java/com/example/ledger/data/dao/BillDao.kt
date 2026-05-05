@@ -49,6 +49,9 @@ interface BillDao {
     @Query("SELECT * FROM bills ORDER BY createTime DESC LIMIT 1")
     suspend fun getLastBill(): Bill?
 
+    @Query("SELECT * FROM bills WHERE type = 'expense' AND ABS(amount - :amount) < 0.005 AND isRefund = 0 ORDER BY createTime DESC LIMIT 1")
+    suspend fun findMatchingExpense(amount: Double): Bill?
+
     @Query("SELECT DISTINCT categoryId FROM bills WHERE date LIKE :periodKey || '%'")
     suspend fun getActiveCategoryIds(periodKey: String): List<String>
 
