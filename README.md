@@ -27,9 +27,20 @@
 
 ## 下载安装
 
-[![下载 APK](https://img.shields.io/badge/下载-APK-brightgreen)](https://github.com/t29912019-spec/ledger-pet/releases/download/v1.0/ledger-pet-v1.0.apk)
+[![下载 APK](https://img.shields.io/badge/下载-APK-brightgreen)](https://github.com/t29912019-spec/ledger-pet/raw/main/releases/ledger-pet-v1.1.apk)
 
-1. 点击上方按钮下载 APK
+**手机直接下载**：用手机浏览器打开以下链接即可下载安装：
+
+```
+https://github.com/t29912019-spec/ledger-pet/raw/main/releases/ledger-pet-v1.1.apk
+```
+
+或者用手机扫码下载：
+
+![QR](https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://github.com/t29912019-spec/ledger-pet/raw/main/releases/ledger-pet-v1.1.apk)
+
+安装步骤：
+1. 下载 APK 文件
 2. 手机设置 → 允许「安装未知应用」
 3. 打开 APK 安装
 
