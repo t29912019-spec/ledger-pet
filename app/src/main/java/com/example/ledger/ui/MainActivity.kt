@@ -77,6 +77,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val notificationAccessLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { }
+
+    private fun isNotificationListenerEnabled(): Boolean {
+        val flat = Settings.Secure.getString(
+            contentResolver, "enabled_notification_listeners"
+        )
+        return flat?.contains(packageName) == true
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -95,6 +106,26 @@ class MainActivity : AppCompatActivity() {
         } else {
             startFloatingService()
         }
+
+        // 首次启动引导开启通知读取权限
+        val prefs = getSharedPreferences("ledger_prefs", MODE_PRIVATE)
+        if (!prefs.getBoolean("noti_guide_shown", false) && !isNotificationListenerEnabled()) {
+            prefs.edit().putBoolean("noti_guide_shown", true).apply()
+            showNotificationAccessGuide()
+        }
+    }
+
+    private fun showNotificationAccessGuide() {
+        AlertDialog.Builder(this)
+            .setTitle("开启自动记账")
+            .setMessage("随记账本需要「通知读取权限」才能自动识别微信/支付宝支付通知，实现一键记账和退款自动抵消。\n\n请在下一步中打开「随记账本」开关。")
+            .setPositiveButton("去开启") { _, _ ->
+                notificationAccessLauncher.launch(
+                    Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
+                )
+            }
+            .setNegativeButton("稍后", null)
+            .show()
     }
 
     private fun setupRecyclerView() {
